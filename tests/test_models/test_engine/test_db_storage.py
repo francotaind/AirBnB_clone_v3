@@ -86,3 +86,20 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+ """Test the FileStorage class"""
+    @classmethod
+    def setUpClass(cls):
+        """Setup db and initialize sorage"""
+        cls.storage = db_storage.DBStorage()
+
+    @patch('models.engine.db_storage.DBStorage.reload')
+    def test_reload(self, mock_reload):
+        """Test reload method"""
+        self.storage.reload()
+        mock_reload.assert_called_once()
+
+    @classmethod
+    def tearDownClass(cls):
+        """Remove session instances"""
+        del cls.storage
